@@ -1,51 +1,41 @@
-// -------------- THEME SWITCHER -------------- //
-@mixin theme($--bg-color, $--primary-text-color, $--secondary-text-color, $--link-color, $--visited-link-color) {
-  background-color: $--bg-color;
+// Chakra UI theme-aligned variables
+$background-dark: #121212;
+$brand-200: #81E6D9;
+$brand-300: #4FD1C5;
+$gray-800: #1A202C;
 
-  color: $--primary-text-color;
+// Mixins
+@mixin theme($bg-color, $primary-text-color, $secondary-text-color, $link-color) {
+  background-color: $bg-color;
+  color: $primary-text-color;
 
   a {
-    color: $--link-color;
+    color: $link-color;
     text-decoration: none;
 
-    &:visited { color: $--visited-link-color; }
-    &:hover { text-decoration: underline; }
+    &:hover {
+      color: lighten($link-color, 10%);
+      text-decoration: none;
+    }
   }
 
   code:not(pre > code) {
-    background-color: $--primary-text-color;
-    color: $--bg-color;
+    background-color: $primary-text-color;
+    color: $bg-color;
+    padding: 0.1em 0.2em;
+    font-size: 90%;
+    border-radius: 0.2em;
   }
 
-  figcaption { color: $--secondary-text-color; }
+  figcaption {
+    color: $secondary-text-color;
+  }
 }
 
-@mixin dark-appearance {
-  @include theme(#212121, #fafafa, #eeeeee, #0071bc, #a359e9);
-}
-
-@mixin light-appearance {
-  @include theme(#ffffff, #212121, #666666, #1e70bf, #921292);
-}
-
-body[a="dark"] { @include dark-appearance; }
-body[a="light"] { @include light-appearance; }
-
-
-@media (prefers-color-scheme: dark) {
-  body[a="auto"] { @include dark-appearance; }
-}
-
-@media (prefers-color-scheme: light) {
-  body[a="auto"] { @include light-appearance; }
-}
-
-// -------------------------------------------- //
-
-html { height: 100%; }
-
+// Dark theme (default)
 body {
-  font-family: monospace;
+  @include theme($background-dark, #FAFAFA, #EEEEEE, $brand-200);
+  font-family: monospace;  // Reverted to original font
   font-size: 16px;
   line-height: 1.4;
   margin: 0;
@@ -53,32 +43,50 @@ body {
   overflow-wrap: break-word;
 }
 
-.post-meta { text-align: right; }
+// Typography styles
+h2, h3, h4, h5, h6 {
+  margin-top: 3rem;
+  font-weight: bold;
+  letter-spacing: tight;
+}
 
-h2, h3, h4, h5, h6 { margin-top: 3rem; }
+// Button styles
+.button {
+  font-weight: bold;
+  border-radius: 9999px; // 'full' in Chakra UI
+  padding: 0.5em 1em;
+  
+  &.solid {
+    background-color: $brand-200;
+    color: $gray-800;
+    
+    &:hover {
+      background-color: $brand-300;
+    }
+  }
+  
+  &.outline {
+    border: 1px solid $brand-200;
+    color: $brand-200;
+    
+    &:hover {
+      background-color: $brand-200;
+      color: $gray-800;
+    }
+  }
+}
 
-hr { margin: 2rem 0; }
-
-p { margin: 1rem 0; }
-
-li { margin: 0.4rem 0; }
-
-*:target { background: yellow; }
-
+// Other styles
 .w {
   max-width: 640px;
   margin: 0 auto;
   padding: 4rem 2rem;
 }
 
-.toc {
-  border: thin solid black;
-  padding: 1rem;
-}
-
 hr {
   text-align: center;
   border: 0;
+  margin: 2rem 0;
 
   &:before { content: '/////' }
   &:after { content: attr(data-content) '/////' }
@@ -87,35 +95,27 @@ hr {
 pre {
   background: black;
   padding: 1em;
-  overflow-x: auto; /* Fix pre content overflowing parent without scroll bar */
+  overflow-x: auto;
 }
 
-table { width: 100%; }
-
-table, th, td {
-  border: thin solid black;
+table {
+  width: 100%;
   border-collapse: collapse;
-  padding: 0.4rem;
-}
-
-code:not(pre > code) {
-  padding: 0.1em 0.2em;
-  font-size: 90%;
-}
-
-code.has-jax {
-  -webkit-font-smoothing: antialiased;
-  background: inherit !important;
-  border: none !important;
-  font-size: 100%;
+  
+  th, td {
+    border: thin solid $brand-200;
+    padding: 0.4rem;
+  }
 }
 
 blockquote {
   font-style: italic;
-  border: thin solid black;
+  border: thin solid $brand-200;
   padding: 1rem;
-
-  p { margin: 0; }
+  
+  p {
+    margin: 0;
+  }
 }
 
 img {
@@ -127,4 +127,17 @@ img {
 figcaption {
   text-align: center;
   opacity: 0.5;
+}
+
+.post-meta { text-align: right; }
+
+p { margin: 1rem 0; }
+
+li { margin: 0.4rem 0; }
+
+*:target { background: yellow; }
+
+.toc {
+  border: thin solid black;
+  padding: 1rem;
 }
