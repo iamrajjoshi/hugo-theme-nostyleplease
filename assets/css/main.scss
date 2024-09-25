@@ -35,7 +35,7 @@ $gray-800: #1A202C;
 // Dark theme (default)
 body {
   @include theme($background-dark, #FAFAFA, #EEEEEE, $brand-200);
-  font-family: monospace;  // Reverted to original font
+  font-family: sans-serif;
   font-size: 16px;
   line-height: 1.4;
   margin: 0;
